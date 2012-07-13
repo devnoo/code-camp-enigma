@@ -22,24 +22,23 @@ class Enigma
 
   def encode(message)
     @rightRotor.rotate()
-    alphabet_index = Constants::ALPHABET.index(message)
-    puts alphabet_index
-    signalFromRotor1 = @rightRotor.signalRightToLeft(alphabet_index)
-    puts "signalFromRightRotor:  #{signalFromRotor1}"
-    signalFromRotor2 = @centerRotor.signalRightToLeft(signalFromRotor1)
-    puts "signalFromCenterRotor:  #{signalFromRotor2}"
-    signalFromRotor3 = @leftRotor.signalRightToLeft(signalFromRotor2)
-    puts "signalFromLeftRotor:  #{signalFromRotor3}"
-    reflectedSignal = @reflector.reflect(signalFromRotor3)
-    puts "reflectedsignal:  #{reflectedSignal}"
-    signalBackFromLeftRotor = @leftRotor.signalLeftToRight(reflectedSignal)
-    puts "leftrotorback:  #{signalBackFromLeftRotor}"
-    signalBackFromCenterRotor = @centerRotor.signalLeftToRight(signalBackFromLeftRotor)
-    puts "centerrotorback:  #{signalBackFromCenterRotor}"
-    signalBackFromRightRotor = @rightRotor.signalLeftToRight(signalBackFromCenterRotor)
-    puts "rightrotorback:  #{signalBackFromRightRotor}"
+    result = ""
+    message.each do |char|
+      result << encodeChar(char)
+    end
+    result
+  end
 
-    return  Constants::ALPHABET[signalBackFromRightRotor].chr
+
+  def encodeChar(characterToEncode)
+    signalFromRotor1 = @rightRotor.signalRightToLeft(Constants::ALPHABET.index(characterToEncode))
+    signalFromRotor2 = @centerRotor.signalRightToLeft(signalFromRotor1)
+    signalFromRotor3 = @leftRotor.signalRightToLeft(signalFromRotor2)
+    reflectedSignal = @reflector.reflect(signalFromRotor3)
+    signalBackFromLeftRotor = @leftRotor.signalLeftToRight(reflectedSignal)
+    signalBackFromCenterRotor = @centerRotor.signalLeftToRight(signalBackFromLeftRotor)
+    signalBackFromRightRotor = @rightRotor.signalLeftToRight(signalBackFromCenterRotor)
+    Constants::ALPHABET[signalBackFromRightRotor].chr
   end
 
   def decode(message)
