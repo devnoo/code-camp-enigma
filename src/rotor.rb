@@ -1,17 +1,28 @@
+
 class Rotor
-  def initialize(leftColumn, rightColumn, initialLetter)
+  attr_reader :notchPosition
+
+  def initialize(leftColumn, rightColumn, initialLetter, notchLetter)
      @rightColumn = rightColumn
      @leftColumn = leftColumn
      @initialPosition = @leftColumn.index(initialLetter)
      @currentPosition = @initialPosition
+     @notchPosition = @leftColumn.index(notchLetter)
   end
 
   def reset()
     @currentPosition = @initialPosition
   end
 
-  def rotate()
+
+  def rotate(&notchPassedAction)
     @currentPosition = @currentPosition + 1
+    if (@currentPosition > 25)
+      @currentPosition == 0
+    end
+    if (notchPosition == @currentPosition - 1)
+      notchPassedAction.call(self)
+    end
   end
   
   def leftPosition(non_rotated_position)

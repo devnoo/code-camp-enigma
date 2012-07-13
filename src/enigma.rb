@@ -21,9 +21,8 @@ class Enigma
   end
 
   def encode(message)
-    @rightRotor.rotate()
     result = ""
-    message.each do |char|
+    message.each_char do |char|
       result << encodeChar(char)
     end
     result
@@ -31,6 +30,10 @@ class Enigma
 
 
   def encodeChar(characterToEncode)
+    if (characterToEncode == " ")
+      return ""
+    end
+    @rightRotor.rotate {@centerRotor.rotate {@rightRotor.rotate }}
     signalFromRotor1 = @rightRotor.signalRightToLeft(Constants::ALPHABET.index(characterToEncode))
     signalFromRotor2 = @centerRotor.signalRightToLeft(signalFromRotor1)
     signalFromRotor3 = @leftRotor.signalRightToLeft(signalFromRotor2)

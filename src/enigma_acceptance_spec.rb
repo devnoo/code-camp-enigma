@@ -11,12 +11,13 @@ describe "Enigma acceptance test" do
   where(:originalMessage, :expectedEncodedMessage) do
     [
       ["E" , "Q" ] ,
-      #["QMJIDO MZWZJFJR", "ENIGMA MACHINE"]
+      ["QMJIDO", "ENIGMA"] ,
+      ["QMJIDO MZWZJFJR", "ENIGMAREVEALED"]
     ]
   end
 
   with_them do
-    it "should do additions" do
+    it "should encode and decode the message" do
       encodedMessage = @enigma.encode(originalMessage)
       encodedMessage.should == expectedEncodedMessage
       @enigma.reset()
