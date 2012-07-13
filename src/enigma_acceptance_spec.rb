@@ -8,11 +8,12 @@ describe "Enigma acceptance test" do
     @enigma = Enigma.new "MCK"
   end
 
-  where(:originalMessage, :expectedEncodedMessage) do
+  where(:originalMessage, :expectedEncodedMessage, :expectedDecodedMessage) do
     [
-      ["E" , "Q" ] ,
-      ["QMJIDO", "ENIGMA"] ,
-      ["QMJIDO MZWZJFJR", "ENIGMAREVEALED"]
+      ["E" , "Q", "E"] ,
+      ["ENIGMA", "QMJIDO",  "ENIGMA"] ,
+      ["ENIGMA REVEALED", "QMJIDOMZWZJFJR", "ENIGMAREVEALED"]
+      #["QMJIDO MZWZJFJR", "ENIGMA MACHINE"]
     ]
   end
 
@@ -22,7 +23,7 @@ describe "Enigma acceptance test" do
       encodedMessage.should == expectedEncodedMessage
       @enigma.reset()
       result = @enigma.decode(encodedMessage)
-      result.should == originalMessage
+      result.should == expectedDecodedMessage
     end
   end
 end
