@@ -1,4 +1,5 @@
 require "constants"
+require "rotor"
 
 class Rotors
 

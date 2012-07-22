@@ -33,8 +33,9 @@ class Enigma
     if (characterToEncode == " ")
       return ""
     end
+    puts "char to encode : #{characterToEncode}"
     @rightRotor.rotate {@centerRotor.rotate {@rightRotor.rotate }}
-    signalFromRotor1 = @rightRotor.signalRightToLeft(Constants::ALPHABET.index(characterToEncode))
+    signalFromRotor1 = @rightRotor.signalRightToLeft(Constants::ALPHABET.index(characterToEncode.capitalize))
     signalFromRotor2 = @centerRotor.signalRightToLeft(signalFromRotor1)
     signalFromRotor3 = @leftRotor.signalRightToLeft(signalFromRotor2)
     reflectedSignal = @reflector.reflect(signalFromRotor3)
